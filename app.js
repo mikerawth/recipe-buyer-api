@@ -76,6 +76,9 @@ app.use('/api/cart', cartRouteVar);
 const ingredientRouteVar = require('./routes/ingredientRoutes');
 app.use('/api/ingredient', ingredientRouteVar);
 
+const recipeRouteVar = require('./routes/recipeRoutes')
+app.use('/api/spoonacular', recipeRouteVar)
+
 // const userRoutes = require('./routes/userRoutes');
 // app.use('/api/auth', userRoutes);
 
