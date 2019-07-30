@@ -79,8 +79,8 @@ app.use('/api/ingredient', ingredientRouteVar);
 const recipeRouteVar = require('./routes/recipeRoutes')
 app.use('/api/spoonacular', recipeRouteVar)
 
-// const userRoutes = require('./routes/userRoutes');
-// app.use('/api/auth', userRoutes);
+const userRoutes = require('./routes/userRoutes');
+app.use('/api/auth', userRoutes);
 
 
 module.exports = app;
