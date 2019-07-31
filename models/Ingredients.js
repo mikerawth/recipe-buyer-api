@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const ingredientSchema = new Schema({
+const ingredientsSchema = new Schema({
   name: String,
   usAmount: Number,
   usUnit: String,
@@ -10,6 +10,6 @@ const ingredientSchema = new Schema({
   recipeApiID: String
 });
 
-const Ingredient = mongoose.model('ingredient', ingredientSchema);
+const Ingredients = mongoose.model('ingredients', ingredientsSchema);
 
-module.exports = Ingredient;
+module.exports = Ingredients;

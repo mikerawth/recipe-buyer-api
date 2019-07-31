@@ -71,8 +71,8 @@ app.use(cors({
 }));
 
 
-const ingredientRouteVar = require('./routes/ingredientRoutes');
-app.use('/api/ingredient', ingredientRouteVar);
+const ingredientsRouteVar = require('./routes/ingredientsRoutes');
+app.use('/api/ingredients', ingredientsRouteVar);
 
 const recipeRouteVar = require('./routes/recipeRoutes')
 app.use('/api/recipes', recipeRouteVar)

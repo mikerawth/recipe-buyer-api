@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Ingredient = require('../models/Ingredient')
+const Ingredient = require('../models/Ingredients')
 
 
 // Create
