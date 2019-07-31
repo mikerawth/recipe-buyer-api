@@ -25,5 +25,26 @@ router.post('/addIngredients', (req, res, next) => {
   })
 })
 
+// removes ALL Ingredients
+router.post('/removeIngredients', (req, res, next) => {
+  Ingredients.deleteMany()
+    .then((response) => {
+      res.json(response.data)
+    })
+    .catch((err) => {
+      res.json(err)
+    })
+})
+
+router.get('/getIngredients', (req, res, next) => {
+  Ingredients.find()
+    .then((response) => {
+      res.json(response)
+    })
+    .catch((err) => {
+      res.json(err)
+    })
+})
+
 
 module.exports = router;
