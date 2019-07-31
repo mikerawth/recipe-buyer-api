@@ -19,7 +19,7 @@ router.get('/', (req, res, next) => {
 })
 
 
-router.get('/recipes/search/:theQuery', (req, res, next) => {
+router.get('/search/:theQuery', (req, res, next) => {
 
   const theSearch = `/recipes/search/?query=${req.params.theQuery}`
 
@@ -28,12 +28,11 @@ router.get('/recipes/search/:theQuery', (req, res, next) => {
       res.json(response.data.results) // returns array of recipes
     })
     .catch((err) => {
-      console.log('-=-=-=-=-=-=-=-=', 'err')
       res.json(err)
     })
 })
 
-router.get('/recipes/:recipeID/summary', (req, res, next) => {
+router.get('/:recipeID/summary', (req, res, next) => {
 
   const theSearch = `/recipes/${req.params.recipeID}/summary`
 
@@ -42,10 +41,34 @@ router.get('/recipes/:recipeID/summary', (req, res, next) => {
       res.json(response.data) // should return summary of a single recipe
     })
     .catch((err) => {
-      console.log('-=-=-=-=-=-=-=-=', 'err')
       res.json(err)
     })
 })
 
+
+// get ingredients for recipe
+router.get('/:recipeID/ingredients', (req, res, next) => {
+  const theSearch = `/recipes/${req.params.recipeID}/ingredientWidget.json`
+  generateFoodApi(theSearch).get()
+    .then((response) => {
+      res.json(response.data) // should return summary of a single recipe
+    })
+    .catch((err) => {
+      res.json(err)
+    })
+})
+
+// get instructions for recipe
+// https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/324694/analyzedInstructions
+router.get('/:recipeID/instructions', (req, res, next) => {
+  const theSearch = `/recipes/${req.params.recipeID}/analyzedInstructions`
+  generateFoodApi(theSearch).get()
+    .then((response) => {
+      res.json(response.data) // should return summary of a single recipe
+    })
+    .catch((err) => {
+      res.json(err)
+    })
+})
 
 module.exports = router;

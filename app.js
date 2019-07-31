@@ -70,17 +70,18 @@ app.use(cors({
   origin: ['http://localhost:3000', 'https://blah.herokuapp.com']
 }));
 
-const cartRouteVar = require('./routes/cartRoutes');
-app.use('/api/cart', cartRouteVar);
 
 const ingredientRouteVar = require('./routes/ingredientRoutes');
 app.use('/api/ingredient', ingredientRouteVar);
 
 const recipeRouteVar = require('./routes/recipeRoutes')
-app.use('/api/spoonacular', recipeRouteVar)
+app.use('/api/recipes', recipeRouteVar)
 
-const userRoutes = require('./routes/userRoutes');
-app.use('/api/auth', userRoutes);
+const authRoutes = require('./routes/authRoutes');
+app.use('/api/auth', authRoutes);
+
+const cartRoutes = require('./routes/cartRoutes');
+app.use('/api/cart', cartRoutes);
 
 
 module.exports = app;
