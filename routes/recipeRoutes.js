@@ -32,9 +32,9 @@ router.get('/search/:theQuery', (req, res, next) => {
     })
 })
 
-router.get('/:recipeID/summary', (req, res, next) => {
+router.get('/:recipeID/information', (req, res, next) => {
 
-  const theSearch = `/recipes/${req.params.recipeID}/summary`
+  const theSearch = `/recipes/${req.params.recipeID}/information`
 
   generateFoodApi(theSearch).get()
     .then((response) => {
@@ -47,8 +47,9 @@ router.get('/:recipeID/summary', (req, res, next) => {
 
 
 // get ingredients for recipe
+// CHANGE TO USE FOR ONLY PRICE.  GET INGREDIENTS THROUGH INFORMATION
 router.get('/:recipeID/ingredients', (req, res, next) => {
-  const theSearch = `/recipes/${req.params.recipeID}/ingredientWidget.json`
+  const theSearch = `/recipes/${req.params.recipeID}/priceBreakdownWidget.json`
   generateFoodApi(theSearch).get()
     .then((response) => {
       res.json(response.data) // should return summary of a single recipe
@@ -60,6 +61,7 @@ router.get('/:recipeID/ingredients', (req, res, next) => {
 
 // get instructions for recipe
 // https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/324694/analyzedInstructions
+// DO NOT USE - REPLACE WITH .../INFORMATION
 router.get('/:recipeID/instructions', (req, res, next) => {
   const theSearch = `/recipes/${req.params.recipeID}/analyzedInstructions`
   generateFoodApi(theSearch).get()

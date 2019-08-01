@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   username: String,
   password: String,
-  // cart: [{ type: ObjectID, ref: "Ingredient" }],
+  // cart: [{ type: Object, ref: "Ingredient" }],
   cart: [String]
 });
 

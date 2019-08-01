@@ -7,7 +7,7 @@ const ingredientsSchema = new Schema({
   usUnit: String,
   metricAmount: Number,
   metricUnit: String,
-  recipeApiID: String
+  recipe: { type: Object, ref: 'Recipe' }
 });
 
 const Ingredients = mongoose.model('ingredients', ingredientsSchema);
