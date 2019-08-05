@@ -14,17 +14,20 @@ router.post('/addRecipeAndIngredients', (req, res, next) => {
     apiID: recipeApiID,
   })
     .then((createdRecipe) => {
+
       ingredients.forEach((eachIngredient) => {
+
         Ingredients.create({
           name: eachIngredient.name,
-          usAmount: eachIngredient.amount.us.value,
-          usUnit: eachIngredient.amount.us.unit,
-          metricAmount: eachIngredient.amount.metric.value,
-          metricUnit: eachIngredient.amount.metric.unit,
+          usAmount: eachIngredient.usAmount,
+          usUnit: eachIngredient.usUnit,
+          metricAmount: eachIngredient.metricAmount,
+          metricUnit: eachIngredient.metricUnit,
           recipe: createdRecipe._id,
         })
           .then((response) => {
-            res.json(response.data)
+            // console.log('the response', response)
+            res.json(response)
           })
           .catch((err) => {
             res.json(err)
