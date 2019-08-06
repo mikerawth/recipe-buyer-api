@@ -39,7 +39,8 @@ router.post('/signup', (req, res, next) => {
 
     const aNewUser = new User({
       username: userNameVar,
-      password: hashPass
+      password: hashPass,
+      cart: [],
     });
 
     aNewUser.save(err => {

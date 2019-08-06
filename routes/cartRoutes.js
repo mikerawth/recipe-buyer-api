@@ -1,49 +1,93 @@
 const express = require('express');
 const router = express.Router();
 
-const Ingredients = require('../models/Ingredients')
+const Ingredient = require('../models/Ingredient')
 const Recipe = require('../models/Recipe')
+const User = require('../models/User')
 
 router.post('/addRecipeAndIngredients', (req, res, next) => {
   const ingredients = req.body.theIngredients;
   const recipeApiID = req.body.recipeApiID;
   const recipeName = req.body.recipeName;
 
-  Recipe.create({
-    name: recipeName,
-    apiID: recipeApiID,
+  const arrayOfIng = [];
+
+
+  ingredients.forEach((eachIngredient) => {
+
+    arrayOfIng.push(Ingredient.create({
+      name: eachIngredient.name,
+      usAmount: eachIngredient.usAmount,
+      usUnit: eachIngredient.usUnit,
+      metricAmount: eachIngredient.metricAmount,
+      metricUnit: eachIngredient.metricUnit,
+    }))
   })
-    .then((createdRecipe) => {
+  Promise.all(arrayOfIng)
+    .then((eachThing) => {
 
-      ingredients.forEach((eachIngredient) => {
 
-        Ingredients.create({
-          name: eachIngredient.name,
-          usAmount: eachIngredient.usAmount,
-          usUnit: eachIngredient.usUnit,
-          metricAmount: eachIngredient.metricAmount,
-          metricUnit: eachIngredient.metricUnit,
-          recipe: createdRecipe._id,
-        })
-          .then((response) => {
-            // console.log('the response', response)
-            res.json(response)
-          })
-          .catch((err) => {
-            res.json(err)
-          })
+      arrayOfIngIDs = eachThing.map((eachIng) => {
+        return eachIng._id;
       })
 
+
+      Recipe.create({
+        name: recipeName,
+        apiID: recipeApiID,
+        ingredients: arrayOfIngIDs,
+      })
+        .then((theCreatedRecipe) => {
+          // User.findByIdAndUpdate(req.user._id, {
+          //   $push: { friends: friend._id }
+          // }, { 'new': true}, cb);
+          console.log(theCreatedRecipe._id)
+          User.findByIdAndUpdate(req.user._id, {
+            $push: { cart: theCreatedRecipe._id },
+          })
+            .then((response) => {
+              res.json(response)
+            })
+            .catch((err) => {
+              res.json(err)
+            })
+        })
+        .catch((err) => {
+          res.json(err)
+        })
     })
-    .catch((err) => {
-      res.json(err)
-    })
+
+
+
+
+  // console.log('cl out of the create -=-=-=-', arrayOfIng)
+  // Recipe.create({
+  //   name: recipeName,
+  //   apiID: recipeApiID,
+  //   ingredients: arrayOfIng,
+  // })
+  //   .then((theCreatedRecipe) => {
+  //     User.findByIdAndUpdate(req.user._id,
+  //       {
+  //         cart: cart.push(theCreatedRecipe._id)
+  //       })
+  //       .then((response) => {
+  //         res.json(response)
+  //       })
+  //       .catch((err) => {
+  //         res.json(err)
+  //       })
+  //   })
+  //   .catch((err) => {
+  //     res.json(err)
+  //   })
+
 
 })
 
 // removes ALL Ingredients
 router.post('/removeIngredients', (req, res, next) => {
-  Ingredients.deleteMany()
+  Ingredient.deleteMany()
     .then((response) => {
       res.json(response.data)
     })
@@ -53,7 +97,7 @@ router.post('/removeIngredients', (req, res, next) => {
 })
 
 router.get('/getIngredients', (req, res, next) => {
-  Ingredients.find().populate('recipe')
+  Ingredient.find()
     .then((response) => {
       res.json(response)
     })

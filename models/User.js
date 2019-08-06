@@ -5,8 +5,7 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   username: String,
   password: String,
-  // cart: [{ type: Object, ref: "Ingredient" }],
-  cart: [String]
+  cart: [{ type: Schema.Types.ObjectId, ref: "Recipe" }],
 });
 
 const User = mongoose.model('User', userSchema);
