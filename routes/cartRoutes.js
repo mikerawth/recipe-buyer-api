@@ -57,32 +57,6 @@ router.post('/addRecipeAndIngredients', (req, res, next) => {
         })
     })
 
-
-
-
-  // console.log('cl out of the create -=-=-=-', arrayOfIng)
-  // Recipe.create({
-  //   name: recipeName,
-  //   apiID: recipeApiID,
-  //   ingredients: arrayOfIng,
-  // })
-  //   .then((theCreatedRecipe) => {
-  //     User.findByIdAndUpdate(req.user._id,
-  //       {
-  //         cart: cart.push(theCreatedRecipe._id)
-  //       })
-  //       .then((response) => {
-  //         res.json(response)
-  //       })
-  //       .catch((err) => {
-  //         res.json(err)
-  //       })
-  //   })
-  //   .catch((err) => {
-  //     res.json(err)
-  //   })
-
-
 })
 
 // removes ALL Ingredients
@@ -98,6 +72,26 @@ router.post('/removeIngredients', (req, res, next) => {
 
 router.get('/getIngredients', (req, res, next) => {
   Ingredient.find()
+    .then((response) => {
+      res.json(response)
+    })
+    .catch((err) => {
+      res.json(err)
+    })
+})
+
+router.get('/usersCart', (req, res, next) => {
+  User.findById(req.user._id).populate('cart')
+    .then((response) => {
+      res.json(response)
+    })
+    .catch((err) => {
+      res.json(err)
+    })
+})
+
+router.get('/recipeIng/:theID', (req, res, next) => {
+  Ingredient.findById(req.params.theID)
     .then((response) => {
       res.json(response)
     })
