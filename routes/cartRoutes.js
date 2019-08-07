@@ -129,4 +129,68 @@ router.post('/ing/toggle/', (req, res, next) => {
     })
 })
 
+
+router.delete('/recipe/single', (req, res, next) => {
+  const theID = req.body.recipeID;
+
+  Recipe.findById(theID)
+    .then((theRecipe) => {
+
+      theRecipe.ingredients.forEach((eachIngID) => {
+        Ingredient.findByIdAndDelete(eachIngID)
+      })
+
+      Recipe.findByIdAndDelete(theID)
+        .then((response) => {
+          res.json(response)
+        })
+        .catch((err) => {
+          res.json(err)
+        })
+    })
+    .catch((err) => {
+      res.json(err)
+    })
+})
+
+router.delete('/recipe/ingredients', (req, res, next) => {
+  const theID = req.body.recipeID;
+
+  Recipe.findById(theID)
+    .then((theRecipe) => {
+
+      theRecipe.ingredients.forEach((eachIngID) => {
+        Ingredient.findByIdAndDelete(eachIngID)
+          .then((response) => {
+            res.json(response)
+          })
+          .catch((err) => {
+            res.json(err)
+          })
+      })
+    })
+    .catch((err) => {
+      res.json(err)
+    })
+})
+
+router.delete('/allUsersRecipesAndIngredients', (req, res, next) => {
+  User.deleteMany()
+    .then(() => {
+      Recipe.deleteMany()
+        .then(() => {
+          Ingredient.deleteMany()
+            .then((response) => {
+              res.json(response)
+            })
+            .catch((err) => {
+              res.json(err)
+            })
+        })
+    })
+    .catch((err) => {
+      res.json(err)
+    })
+})
+
 module.exports = router;
