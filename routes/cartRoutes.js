@@ -38,9 +38,6 @@ router.post('/addRecipeAndIngredients', (req, res, next) => {
         ingredients: arrayOfIngIDs,
       })
         .then((theCreatedRecipe) => {
-          // User.findByIdAndUpdate(req.user._id, {
-          //   $push: { friends: friend._id }
-          // }, { 'new': true}, cb);
           console.log(theCreatedRecipe._id)
           User.findByIdAndUpdate(req.user._id, {
             $push: { cart: theCreatedRecipe._id },
@@ -80,8 +77,14 @@ router.get('/getIngredients', (req, res, next) => {
     })
 })
 
-router.get('/usersCart', (req, res, next) => {
-  User.findById(req.user._id).populate('cart')
+router.post('/usersCart', (req, res, next) => {
+  User.findById(req.user._id).populate({
+    path: 'cart',
+    populate: {
+      path: 'ingredients',
+      model: 'Ingredient'
+    }
+  })
     .then((response) => {
       res.json(response)
     })
@@ -90,7 +93,7 @@ router.get('/usersCart', (req, res, next) => {
     })
 })
 
-router.get('/recipeIng/:theID', (req, res, next) => {
+router.get('/ing/:theID', (req, res, next) => {
   Ingredient.findById(req.params.theID)
     .then((response) => {
       res.json(response)
@@ -100,5 +103,30 @@ router.get('/recipeIng/:theID', (req, res, next) => {
     })
 })
 
+router.post('/ing/', (req, res, next) => {
+  let theID = req.body.theID
+  Ingredient.findById(theID)
+    .then((response) => {
+      res.json(response)
+    })
+    .catch((err) => {
+      res.json(err)
+    })
+})
+
+router.post('/ing/toggle/', (req, res, next) => {
+  const theID = req.body.ingID;
+  const bool = !req.body.currentStatus;
+
+  Ingredient.findByIdAndUpdate(theID, {
+    include: bool
+  })
+    .then((response) => {
+      res.json(response)
+    })
+    .catch((err) => {
+      res.json(err)
+    })
+})
 
 module.exports = router;

@@ -7,6 +7,7 @@ const ingredientSchema = new Schema({
   usUnit: String,
   metricAmount: Number,
   metricUnit: String,
+  include: { type: Boolean, default: true }
 });
 
 const Ingredient = mongoose.model('Ingredient', ingredientSchema);
